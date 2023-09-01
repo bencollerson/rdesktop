@@ -107,6 +107,7 @@ RDP_VERSION g_rdp_version = RDP_V5;	/* Default to version 5 */
 RD_BOOL g_rdpclip = True;
 RD_BOOL g_console_session = False;
 RD_BOOL g_numlock_sync = False;
+RD_BOOL g_suppress_winkey = False;
 RD_BOOL g_lspci_enabled = False;
 RD_BOOL g_owncolmap = False;
 RD_BOOL g_ownbackstore = True;	/* We can't rely on external BackingStore */
@@ -198,6 +199,7 @@ usage(char *program)
 	fprintf(stderr, "   -T: window title\n");
 	fprintf(stderr, "   -t: disable use of remote ctrl\n");
 	fprintf(stderr, "   -N: enable numlock synchronization\n");
+	fprintf(stderr, "   -W: suppress sending winkey\n");
 	fprintf(stderr, "   -X: embed into another window with a given id.\n");
 	fprintf(stderr, "   -a: connection colour depth\n");
 	fprintf(stderr, "   -z: enable rdp compression\n");
@@ -820,7 +822,7 @@ main(int argc, char *argv[])
 	g_num_devices = 0;
 
 	while ((c = getopt(argc, argv,
-			   "A:V:u:L:d:s:c:p:n:k:g:o:fbBeEitmMzCDKS:T:NX:a:x:Pr:045vh?")) != -1)
+			   "A:V:u:L:d:s:c:p:n:k:g:o:fbBeEitmMzCDKS:T:NWX:a:x:Pr:045vh?")) != -1)
 	{
 		switch (c)
 		{
@@ -959,6 +961,10 @@ main(int argc, char *argv[])
 
 			case 'N':
 				g_numlock_sync = True;
+				break;
+
+			case 'W':
+				g_suppress_winkey = True;
 				break;
 
 			case 'X':

@@ -48,6 +48,7 @@ extern RD_BOOL g_seamless_rdp;
 extern RD_BOOL g_seamless_active;
 extern RDP_VERSION g_rdp_version;
 extern RD_BOOL g_numlock_sync;
+extern RD_BOOL g_suppress_winkey;
 
 static RD_BOOL keymap_loaded;
 static key_translation_entry *keymap[KEYMAP_SIZE];
@@ -557,6 +558,10 @@ xkeymap_init(void)
 static void
 send_winkey(uint32 ev_time, RD_BOOL pressed, RD_BOOL leftkey)
 {
+	if (g_suppress_winkey) {
+		return;
+	}
+
 	uint8 winkey;
 
 	if (leftkey)
